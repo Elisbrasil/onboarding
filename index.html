@@ -73,7 +73,7 @@ img{max-width:100%}
 @media(max-width:620px){.pillars{grid-template-columns:1fr}}
 
 /* ---------- VÍDEO ---------- */
-.video{margin:-84px auto 0;max-width:840px;position:relative;z-index:5;padding:0 24px}
+.video{margin:-84px auto 32px;max-width:840px;position:relative;z-index:5;padding:0 24px}
 @media(max-width:520px){.video{padding:0 16px;margin-top:-70px}}
 .video-frame{
   background:var(--ink-deep);border:1px solid var(--line-dark);border-radius:18px;overflow:hidden;
@@ -88,8 +88,6 @@ img{max-width:100%}
 .play::after{content:"";border-left:19px solid var(--ink);border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:6px}
 .video-ph .t{font-family:'Sora',sans-serif;font-weight:600;color:#fff;font-size:18px}
 .video-ph .s{font-size:13.5px}
-.topics{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:18px}
-.topics span{font-size:12.5px;font-weight:500;color:var(--ink-soft);background:var(--paper);border:1px solid var(--line);border-radius:100px;padding:6px 13px}
 
 /* ---------- SEÇÕES ---------- */
 section{padding:80px 0}
@@ -345,11 +343,8 @@ h2{font-size:clamp(28px,5.2vw,40px);font-weight:700;margin-bottom:14px}
     <div class="video-ph">
       <div class="play"></div>
       <div class="t">Boas-vindas à JUK</div>
-      <div class="s">Um vídeo curto para começar bem a nossa parceria <span class="pend">em produção</span></div>
+      <div class="s">Um vídeo curto para começar bem a nossa parceria</div>
     </div>
-  </div>
-  <div class="topics">
-    <span>👋 Boas-vindas</span><span>💛 Nossa cultura</span><span>🤝 Como funciona a parceria</span><span>🎯 O que esperar</span><span>💬 Nossos canais</span>
   </div>
 </div>
 
