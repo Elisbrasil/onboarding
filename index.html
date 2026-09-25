@@ -288,8 +288,10 @@ h2{font-size:clamp(28px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 @media(max-width:680px){.perks{grid-template-columns:1fr}}
 
 /* ---------- PREPARE-SE ---------- */
-.prep{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.pp{background:var(--cream);border-radius:14px;padding:18px}
+.prep{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:760px){.prep{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.prep{grid-template-columns:1fr}}
+.pp{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px}
 .pp .pic{font-size:22px;margin-bottom:8px}
 .pp b{display:block;font-size:15px;font-weight:600;line-height:1.35}
 .pp span{display:block;font-size:13.5px;color:var(--muted);margin-top:3px;line-height:1.4}
@@ -334,11 +336,12 @@ h2{font-size:clamp(28px,5.2vw,40px);font-weight:700;margin-bottom:14px}
 </header>
 
 <!-- ============ VÍDEO ============
-     Para inserir o vídeo, preencha data-src com o link do YouTube, do Vimeo ou de um arquivo .mp4.
-     Exemplo: data-src="https://www.youtube.com/watch?v=XXXXXXXXXXX"
+     Para inserir o vídeo, salve o arquivo como video/boas-vindas.mp4. Ele aparece aqui sozinho.
+     Capa opcional: salve uma imagem como video/capa.jpg.
+     Se preferir usar um link, preencha data-src. Exemplo: data-src="https://www.youtube.com/watch?v=XXXXXXXXXXX"
 -->
 <div class="video">
-  <div class="video-frame" id="video" data-src="">
+  <div class="video-frame" id="video" data-src="" data-poster="video/capa.jpg">
     <div class="video-ph">
       <div class="play"></div>
       <div class="t">Boas-vindas à JUK</div>
@@ -694,6 +697,7 @@ h2{font-size:clamp(28px,5.2vw,40px);font-weight:700;margin-bottom:14px}
       <div class="pp"><div class="pic">👥</div><b>Quem decide com você</b><span>Sócio, gestor ou quem participa das decisões</span></div>
       <div class="pp"><div class="pic">📂</div><b>Documentos da clínica</b><span>Contrato social, alvará e licença sanitária</span></div>
       <div class="pp"><div class="pic">💉</div><b>Procedimentos e equipe</b><span>O que você realiza e quem trabalha com você</span></div>
+      <div class="pp"><div class="pic">📇</div><b>Contatos da contabilidade e do marketing</b><span>Vamos conversar com eles ao longo da parceria</span></div>
       <div class="pp"><div class="pic">🎯</div><b>Sua maior prioridade</b><span>É por ela que começamos o seu cronograma</span></div>
     </div>
   </div>
@@ -750,25 +754,28 @@ addEventListener('scroll',()=>{
   });
 },{passive:true});
 
-// Vídeo: aceita link do YouTube, Vimeo ou arquivo .mp4 no atributo data-src
+// Vídeo: usa video/boas-vindas.mp4 se o arquivo existir.
+// Também aceita um link do YouTube, do Vimeo ou de outro .mp4 no atributo data-src.
 (function(){
   const box=document.getElementById('video');
-  const src=(box.dataset.src||'').trim();
-  if(!src) return;
-  let el;
+  const src=(box.dataset.src||'').trim()||'video/boas-vindas.mp4';
   const yt=src.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
   const vm=src.match(/vimeo\.com\/(?:video\/)?(\d+)/);
   if(yt||vm){
-    el=document.createElement('iframe');
+    const el=document.createElement('iframe');
     el.src=yt?'https://www.youtube-nocookie.com/embed/'+yt[1]+'?rel=0':'https://player.vimeo.com/video/'+vm[1];
     el.allow='autoplay; fullscreen; picture-in-picture';
     el.allowFullscreen=true;
     el.title='Boas-vindas à JUK';
-  }else{
-    el=document.createElement('video');
-    el.src=src;el.controls=true;el.playsInline=true;el.preload='metadata';
+    box.innerHTML='';box.appendChild(el);
+    return;
   }
-  box.innerHTML='';box.appendChild(el);
+  // arquivo de vídeo: só troca a imagem de espera se o arquivo carregar
+  const el=document.createElement('video');
+  el.controls=true;el.playsInline=true;el.preload='metadata';
+  if(box.dataset.poster) el.poster=box.dataset.poster;
+  el.addEventListener('loadedmetadata',()=>{box.innerHTML='';box.appendChild(el);},{once:true});
+  el.src=src;
 })();
 
 // Destaca a seção atual no menu
